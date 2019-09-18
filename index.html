@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Password Generator</title>
+  </head>
+  <body>
+    <header>
+      <h1>Password Generator</h1>
+    </header>
+    <h2>Generate a Password</h2>
+    <textarea
+      readonly
+      id="password"
+      placeholder="Your Secure Password"
+    ></textarea>
+    <button onclick="generator()">Generate Password</button>
+    <button id="copy" onclick="copyCode()">
+      Copy to Clipboard
+    </button>
+
+    <script type="text/javascript">
+      function generator() {
+        let size = 500000;
+        while (parseInt(size) < 8 || parseInt(size) > 128 || typeof size != "number") {
+          size = prompt("How long do you want your password to be? (8-128 characters)");
+          if (parseInt(size) > 8 && parseInt(size) < 128)
+            break;
+          else
+            alert("Not within number range. Please select a valid number.");
+        }
+        alert("Select what character types you want to use. Select at least one.");
+        let chrtype = [];
+        chrtype[0] = confirm("Special characters?");
+        chrtype[1] = confirm("Numeric characters?");
+        chrtype[2] = confirm("Lowercase characters?");
+        chrtype[3] = confirm("Uppercase characters?");
+        console.log(chrtype);
+        let atLeast = chrtype.every(v => v === false);
+        console.log(atLeast);
+        while (atLeast) { 
+          alert("You must pick at least one character type for password.");
+          chrtype[0] = confirm("Special characters?");
+          chrtype[1] = confirm("Numeric characters?");
+          chrtype[2] = confirm("Lowercase characters?");
+          chrtype[3] = confirm("Uppercase characters?");
+          atLeast = chrtype.every(v => v === false);
+        }
+        let result = '';
+        let chosen = '';
+        let specChar = '!@#$%^&*()_+-=<>?.,/;:{}[]`~';
+        let numChar = '0123456789';
+        let lowChar = 'abcdefghijklmnopqrstuvwxyz';
+        let upChar = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        let allChar = [specChar,numChar,lowChar,upChar];
+        for (var i = chrtype.length - 1; i >= 0; i--) {
+          if (chrtype[i])
+            chosen += allChar[i];
+        }
+        console.log(chosen.length);
+        for (var i = 0; i < size; i++) {
+          let max = Math.ceil(chosen.length-1);
+          let min = 0;
+          let num = Math.floor(Math.random() * (max - min + 1)) + min;
+          result += chosen.charAt(num);
+        }
+        console.log(result);
+        return document.getElementById("password").value = result;
+
+      }
+      function copyCode() {
+        let copyPswd = document.getElementById("password");
+        copyPswd.select();
+        copyPswd.setSelectionRange(0,127);
+        document.execCommand("copy");
+      }
+    </script>
+  </body>
+</html>
