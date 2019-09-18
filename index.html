@@ -1,32 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta charset="utf-8" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    </head><script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <title>Password Generator</title>
   </head>
-  <body>
+  <body style="background-color: darkgrey;">
     <header>
-      <h1>Password Generator</h1>
+      <h1 class="display-2" style="text-align: center; background-color: teal; color: white;">Password Generator</h1>
     </header>
-    <h2>Generate a Password</h2>
-    <textarea
-      readonly
-      id="password"
-      placeholder="Your Secure Password"
-    ></textarea>
-    <button onclick="generator()">Generate Password</button>
-    <button id="copy" onclick="copyCode()">
-      Copy to Clipboard
-    </button>
+    <div class="container">
+      <div class="jumbotron jumbotron-center" style="text-align: center;">
+        <h2>Generate a Password</h2>
+          <textarea
+            readonly
+            id="password"
+            placeholder="Your Secure Password" style="width: 80%;"
+          ></textarea>
+          <br>
+          <button onclick="generator()" class="btn btn-outline-dark btn-lg">Generate Password</button>
+          <button id="copy" onclick="copyCode()" class="btn btn-outline-primary">
+            Copy to Clipboard
+          </button>
+      </div>
+    </div>
 
     <script type="text/javascript">
       function generator() {
         let size = 500000;
         while (parseInt(size) < 8 || parseInt(size) > 128 || typeof size != "number") {
           size = prompt("How long do you want your password to be? (8-128 characters)");
-          if (parseInt(size) > 8 && parseInt(size) < 128)
+          if (parseInt(size) >= 8 && parseInt(size) <= 128)
             break;
           else
             alert("Not within number range. Please select a valid number.");
@@ -37,9 +48,7 @@
         chrtype[1] = confirm("Numeric characters?");
         chrtype[2] = confirm("Lowercase characters?");
         chrtype[3] = confirm("Uppercase characters?");
-        console.log(chrtype);
         let atLeast = chrtype.every(v => v === false);
-        console.log(atLeast);
         while (atLeast) { 
           alert("You must pick at least one character type for password.");
           chrtype[0] = confirm("Special characters?");
@@ -59,21 +68,19 @@
           if (chrtype[i])
             chosen += allChar[i];
         }
-        console.log(chosen.length);
         for (var i = 0; i < size; i++) {
           let max = Math.ceil(chosen.length-1);
           let min = 0;
           let num = Math.floor(Math.random() * (max - min + 1)) + min;
           result += chosen.charAt(num);
         }
-        console.log(result);
         return document.getElementById("password").value = result;
 
       }
       function copyCode() {
         let copyPswd = document.getElementById("password");
         copyPswd.select();
-        copyPswd.setSelectionRange(0,127);
+        copyPswd.setSelectionRange(0,128);
         document.execCommand("copy");
       }
     </script>
